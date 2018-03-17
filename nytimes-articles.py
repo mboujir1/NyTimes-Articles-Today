@@ -14,11 +14,14 @@ def check_net(flag='c'):
 	return False
 
 def main():
-	url = 'https://www.nytimes.com/'
 	if not check_net():
 		print('[!] Please check your internet connection.')
 		sys.exit(1)
+	url = 'https://www.nytimes.com/'
 	req = requests.get(url)
+	if int(req.status_code) != 200:
+		print('[!] Error')
+		sys.exit(1)
 	soup = BeautifulSoup(req.text, 'lxml')
 	save_path = os.environ.get('HOME') + '/articles.txt'
 	with open(save_path, 'w') as f:

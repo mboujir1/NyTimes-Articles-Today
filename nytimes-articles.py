@@ -20,7 +20,8 @@ def main():
 		sys.exit(1)
 	req = requests.get(url)
 	soup = BeautifulSoup(req.text, 'lxml')
-	with open('articles.txt', 'w') as f:
+	save_path = os.environ.get('HOME') + '/articles.txt'
+	with open(save_path, 'w') as f:
 		for article in soup.find_all('article'):
 			try:
 				p = article.h2.a.text.strip('\n').strip(r'^( )+')
@@ -30,8 +31,7 @@ def main():
 			except Exception as e:
 				continue
 	f.close()
-	pwd = os.environ.get('HOME')
-	print('[+] articles saved in %s/%s' %(pwd, 'articles.txt'))
+	print('[+] articles saved in %s' %(save_path))
 
 if __name__ == '__main__':
 	main()
